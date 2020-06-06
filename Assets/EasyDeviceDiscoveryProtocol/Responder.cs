@@ -18,11 +18,11 @@ namespace EasyDeviceDiscoveryProtocolClient
         public string deivceName = "mydevice_server"; //自分のデバイス名
         public int servicePort = 22222; //自分が使ってほしいと思っているポート
 
-        [Header("Request Info")]
+        [Header("Request Info(Read only)")]
         public string requestIpAddress = ""; //要求来たアドレス
         private int requestPort = 0; //要求来たポート
 
-        [Header("Request Data")]
+        [Header("Request Data(Read only)")]
         public string requestDeviceName = ""; //要求に含まれるデバイス名
         public int requestServicePort = 0; //要求に含まれるポート
 

@@ -19,11 +19,12 @@ namespace EasyDeviceDiscoveryProtocolClient
         public string deivceName = "mydevice_client";//自分のデバイス名
         public int servicePort = 11111;//自分が使ってほしいと思っているポート
 
-        [Header("Response Info")]
+        [Header("Response Info(Read only)")]
         public string responseIpAddress = ""; //応答帰ってきたアドレス
         private int responsePort = 0; //応答帰ってきたポート
+        public int foundDevices = 0; //見つかった台数
 
-        [Header("Response Data")]
+        [Header("Response Data(Read only)")]
         public string responseDeviceName = "";//データとして含まれるデバイス名
         public int responseServicePort = 0;//データとして含まれるポート
 
@@ -43,6 +44,7 @@ namespace EasyDeviceDiscoveryProtocolClient
             responseIpAddress = "";
             responsePort = 0;
             responseDeviceName = "";
+            foundDevices = 0;
 
             string data = JsonUtility.ToJson(new RequestJson
             {
@@ -86,6 +88,7 @@ namespace EasyDeviceDiscoveryProtocolClient
                     responseDeviceName = res.deviceName;
                     responseServicePort = res.servicePort;
 
+                    foundDevices++;
                     OnDeviceFound?.Invoke();
                 }
             }
