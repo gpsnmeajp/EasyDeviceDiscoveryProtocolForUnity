@@ -8,9 +8,13 @@ mDNSなどの劣化版と考えてください。
 + Windows
 + Mac
 + iOS
+
 で動作を確認しています。  
   
 <img src="https://github.com/gpsnmeajp/EasyDeviceDiscoveryProtocolForUnity/blob/master/img/image.png?raw=true"></img>
 
 # [仕様](doc/doc.md)
+簡単な使い方です
+
+# [スクリプト本体](Assets/EasyDeviceDiscoveryProtocol/)
 スクリプト本体は [Assets/EasyDeviceDiscoveryProtocol/](Assets/EasyDeviceDiscoveryProtocol/) にあります。
