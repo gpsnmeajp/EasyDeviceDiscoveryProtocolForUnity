@@ -11,3 +11,5 @@ mDNSなどの劣化版と考えてください。
 で動作を確認しています。  
   
 <img src="https://github.com/gpsnmeajp/EasyDeviceDiscoveryProtocolForUnity/blob/master/img/image.png?raw=true"></img>
+
+# [仕様](doc/doc.md)
