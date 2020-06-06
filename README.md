@@ -13,3 +13,4 @@ mDNSなどの劣化版と考えてください。
 <img src="https://github.com/gpsnmeajp/EasyDeviceDiscoveryProtocolForUnity/blob/master/img/image.png?raw=true"></img>
 
 # [仕様](doc/doc.md)
+スクリプト本体は [Assets/EasyDeviceDiscoveryProtocol/](Assets/EasyDeviceDiscoveryProtocol/) にあります。
