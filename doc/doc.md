@@ -1,4 +1,4 @@
-# 仕様(予定)
+# 仕様
 
 ## EasyDeviceDiscoveryProtocolClient.Requester
 GameObjectとして配置してください。  
