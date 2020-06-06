@@ -40,6 +40,7 @@ public class EasyDeviceDiscoveryProtocolClient : MonoBehaviour
         byte[] dat = utf8.GetBytes(data);
 
         udpClient.EnableBroadcast = true;
+        text2.text = "";
         udpClient.Send(dat, dat.Length, point);
     }
 
@@ -61,7 +62,7 @@ public class EasyDeviceDiscoveryProtocolClient : MonoBehaviour
                 var r = udpClient.Receive(ref point);
 
                 text1.text = utf8.GetString(r);
-                text2.text = point.ToString();
+                text2.text += point.ToString()+"\n";
             }
         }
     }
