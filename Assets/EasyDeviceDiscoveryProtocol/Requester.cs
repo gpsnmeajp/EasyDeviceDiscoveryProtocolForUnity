@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,39 +12,47 @@ namespace EasyDeviceDiscoveryProtocolClient
 {
     public class Requester : MonoBehaviour
     {
-        public string deivceName = "mydevice_client";
-        public Text text1;
-        public Text text2;
+        [Header("Settings")]
+        public int discoverPort = 39500; //待受ポート
 
-        public Action<string> OnDeviceFound = null;
-        public Action<string> OnError = null;
+        [Header("Properties")]
+        public string deivceName = "mydevice_client";//自分のデバイス名
+        public int servicePort = 11111;//自分が使ってほしいと思っているポート
+
+        [Header("Response Info")]
+        public string responseIpAddress = ""; //応答帰ってきたアドレス
+        private int responsePort = 0; //応答帰ってきたポート
+
+        [Header("Response Data")]
+        public string responseDeviceName = "";//データとして含まれるデバイス名
+        public int responseServicePort = 0;//データとして含まれるポート
+
+        [Header("Test")]
+        public bool exec = false;//テスト実行
+
+
+        public Action OnDeviceFound = null;
 
         UdpClient udpClient = new UdpClient();
         UTF8Encoding utf8 = new UTF8Encoding(false);
 
-        public void TestStartDiscover()
-        {
-            StartDiscover((s) => {
-                Debug.Log("OnDeviceFound: " + s);
-            }, (s) => {
-                Debug.Log("OnError: " + s);
-            });
-        }
-
-        IPEndPoint point;
-        public void StartDiscover(Action<string> OnDeviceFound, Action<string> OnError)
+        public void StartDiscover(Action OnDeviceFound)
         {
             this.OnDeviceFound = OnDeviceFound;
-            this.OnError = OnError;
 
-            point = new IPEndPoint(IPAddress.Parse("255.255.255.255"), 39500);//送信先兼待受ポート
+            responseIpAddress = "";
+            responsePort = 0;
+            responseDeviceName = "";
 
-            string data = deivceName;
+            string data = JsonUtility.ToJson(new RequestJson
+            {
+                servicePort = servicePort,
+                deviceName = deivceName,
+            });
             byte[] dat = utf8.GetBytes(data);
 
             udpClient.EnableBroadcast = true;
-            text2.text = "";
-            udpClient.Send(dat, dat.Length, point);
+            udpClient.Send(dat, dat.Length, "255.255.255.255", discoverPort);
         }
 
         private void OnApplicationQuit()
@@ -58,14 +67,26 @@ namespace EasyDeviceDiscoveryProtocolClient
 
         void Update()
         {
+            if (exec) {
+                exec = false;
+                StartDiscover(() => { Debug.Log("Found"); });
+            }
+
             if (udpClient != null)
             {
                 while (udpClient.Available > 0)
                 {
+                    IPEndPoint point = new IPEndPoint(IPAddress.Any, discoverPort);
                     var r = udpClient.Receive(ref point);
+                    var res = JsonUtility.FromJson<RequestJson>(utf8.GetString(r));
 
-                    text1.text = utf8.GetString(r);
-                    text2.text += point.ToString() + "\n";
+                    responseIpAddress = point.Address.ToString();
+                    responsePort = point.Port;
+
+                    responseDeviceName = res.deviceName;
+                    responseServicePort = res.servicePort;
+
+                    OnDeviceFound?.Invoke();
                 }
             }
         }
