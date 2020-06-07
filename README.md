@@ -1,5 +1,5 @@
 # EasyDeviceDiscoveryProtocolForUnity(EDDP for Unity)
-Unityで同一LAN内のデバイスを探索するサンプルです。  
+UnityでUDPブロードキャストを使い、同一LAN内の対応アプリを探索するサンプルです。
 探索される側も同じ機能を搭載したアプリケーションを動作させている必要があります。  
 mDNSなどの劣化版と考えてください。  
   
