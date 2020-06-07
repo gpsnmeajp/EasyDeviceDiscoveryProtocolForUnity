@@ -295,8 +295,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   discoverPort: 39500
   deivceName: mydevice_client
-  servicePort: 39540
+  servicePort: 11111
   responseIpAddress: 
+  responseProtocolVersion: 0
   foundDevices: 0
   responseDeviceName: 
   responseServicePort: 0
@@ -315,8 +316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   discoverPort: 39500
   deivceName: mydevice_server
-  servicePort: 39541
+  servicePort: 22222
   requestIpAddress: 
+  requestProtocolVersion: 0
   requestDeviceName: 
   requestServicePort: 0
 --- !u!4 &612043946
