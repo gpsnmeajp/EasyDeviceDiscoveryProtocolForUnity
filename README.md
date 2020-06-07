@@ -9,9 +9,9 @@ UDPパケットにjsonを載せているため、RequestJson.csを拡張する�
 + Windows
 + Mac
 + iOS
-+ (多分Androidでも動く)
 
 で動作を確認しています。  
+(多分Androidでも動くと思われるがまだ動作未確認)
   
 <img src="https://github.com/gpsnmeajp/EasyDeviceDiscoveryProtocolForUnity/blob/master/img/image.png?raw=true"></img>
 
