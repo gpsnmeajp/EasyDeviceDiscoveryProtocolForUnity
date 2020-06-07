@@ -37,6 +37,12 @@ namespace EasyDeviceDiscoveryProtocolClient
         UdpClient udpClient = null;
         UTF8Encoding utf8 = new UTF8Encoding(false); //BOMなし
 
+        //探索開始(ボタン用)
+        public void StartDiscover()
+        {
+            StartDiscover(() => { Debug.Log("[EDDP Requester]Found"); });
+        }
+
         //探索開始(外部からコールされる)
         public void StartDiscover(Action OnDeviceFound)
         {
@@ -143,7 +149,7 @@ namespace EasyDeviceDiscoveryProtocolClient
         {
             if (exec) {
                 exec = false;
-                StartDiscover(() => { Debug.Log("Found"); });
+                StartDiscover(() => { Debug.Log("[EDDP Requester]Found"); });
             }
 
             if (udpClient != null)
