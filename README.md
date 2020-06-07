@@ -1,4 +1,4 @@
-# EasyDeviceDiscoveryProtocolForUnity
+# EasyDeviceDiscoveryProtocolForUnity(EDDP for Unity)
 Unityで同一LAN内のデバイスを探索するサンプルです。  
 探索される側も同じ機能を搭載したアプリケーションを動作させている必要があります。  
 mDNSなどの劣化版と考えてください。  
@@ -9,6 +9,7 @@ UDPパケットにjsonを載せているため、RequestJson.csを拡張する�
 + Windows
 + Mac
 + iOS
++ (多分Androidでも動く)
 
 で動作を確認しています。  
   
