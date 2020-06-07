@@ -3,7 +3,9 @@
 ## EasyDeviceDiscoveryProtocolClient.Requester
 GameObjectとして配置してください。  
 探索の要求、応答の受信を行います。
-
+  
+<img src="req_Inspector.png"></img>  
+  
 #### 準備
 discoverPortには、探索に使用するポートを設定します。既定は39500  
 deivceNameには、自分を表す名称を設定します。必ずアプリケーション固有の設定をしてください。  
@@ -22,6 +24,8 @@ responseServicePortが、Responderが使用してほしいと通知してきて�
 GameObjectとして配置してください。  
 探索要求の受信、応答の送信を行います。  
   
+<img src="resp_Inspector.png"></img>  
+  
 ### 準備
 discoverPortには、探索に使用するポートを設定します。既定は39500  
 deivceNameには、自分を表す名称を設定します。必ずアプリケーション固有の設定をしてください。  
@@ -38,4 +42,3 @@ requestDeviceNameが、Requesterの名称です。
 requestServicePortが、Requesterが使用してほしいと通知してきている通信用ポートです。  
 
 
-<img src="insp.png"></img>
