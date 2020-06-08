@@ -16,8 +16,9 @@ UDPパケットにjsonを載せているため、RequestJson.csを拡張する�
 + iOS
 
 で動作を確認しています。  
-多分Linuxでも動くと思われるがまだ動作未確認。  
-AndroidはRequesterのみ動くと思われます。ブロードキャストパケットの受信が制限されているため。  
+
++ 多分Linuxでも動くと思われるがまだ動作未確認。  
++ Androidは手持ちのNexus 5Xでは動作しましたが、[機種によってはMulticast lockの取得処理が必要とのことです。](https://answers.unity.com/questions/250732/android-build-is-not-receiving-udp-broadcasts.html)
   
 <img src="https://github.com/gpsnmeajp/EasyDeviceDiscoveryProtocolForUnity/blob/master/img/image.png?raw=true"></img>
 
