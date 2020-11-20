@@ -470,8 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   discoverPort: 39500
-  deivceName: mydevice_client
+  deivceName: mydevice
   servicePort: 11111
+  ignoreDeivceName: mydevice
+  desktopMode: 1
   responseIpAddress: 
   responseProtocolVersion: 0
   foundDevices: 0
@@ -491,8 +493,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   discoverPort: 39500
-  deivceName: mydevice_server
+  deivceName: mydevice
   servicePort: 22222
+  ignoreDeivceName: mydevice
+  desktopMode: 1
   requestIpAddress: 
   requestProtocolVersion: 0
   requestDeviceName: 

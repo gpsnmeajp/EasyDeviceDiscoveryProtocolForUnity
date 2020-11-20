@@ -41,6 +41,8 @@ namespace EasyDeviceDiscoveryProtocolClient
         [Header("Properties")]
         public string deivceName = "mydevice_client";//自分のデバイス名
         public int servicePort = 11111;//自分が使ってほしいと思っているポート
+        public string ignoreDeivceName = ""; //無視するデバイス名
+        public bool desktopMode = false; //デスクトップモード(false: 非アクティブ時にポートを閉じる, true: 閉じない)
 
         [Header("Response Info(Read only)")]
         public string responseIpAddress = ""; //応答帰ってきたアドレス
@@ -156,14 +158,19 @@ namespace EasyDeviceDiscoveryProtocolClient
         //アプリケーションが中断・復帰したとき(モバイルでバックグラウンドになった・エディタで別のフォーカスを当てられたとき)
         private void OnApplicationPause(bool pause)
         {
-            if (pause)
+            //モバイルデバイス向けなので、デスクトップモードでは行わない
+            if (!desktopMode)
             {
-                //アプリが閉じられたら止める
-                Close();
-            }
-            else {
-                //アプリが開かれたので開く
-                TryOpen();
+                if (pause)
+                {
+                    //アプリが閉じられたら止める
+                    Close();
+                }
+                else
+                {
+                    //アプリが開かれたので開く
+                    TryOpen();
+                }
             }
         }
 
@@ -183,15 +190,18 @@ namespace EasyDeviceDiscoveryProtocolClient
                     var r = udpClient.Receive(ref point);
                     var res = JsonUtility.FromJson<RequestJson>(utf8.GetString(r));
 
-                    responseIpAddress = point.Address.ToString();
-                    responsePort = point.Port;
-                    responseProtocolVersion = res.version;
+                    //無視デバイス名と一致しない場合だけ処理する
+                    if (res.deviceName != ignoreDeivceName) {
+                        responseIpAddress = point.Address.ToString();
+                        responsePort = point.Port;
+                        responseProtocolVersion = res.version;
 
-                    responseDeviceName = res.deviceName;
-                    responseServicePort = res.servicePort;
+                        responseDeviceName = res.deviceName;
+                        responseServicePort = res.servicePort;
 
-                    foundDevices++;
-                    OnDeviceFound?.Invoke();
+                        foundDevices++;
+                        OnDeviceFound?.Invoke();
+                    }
                 }
             }
         }

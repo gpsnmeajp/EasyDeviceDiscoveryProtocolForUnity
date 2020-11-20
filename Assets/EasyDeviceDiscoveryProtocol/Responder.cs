@@ -40,6 +40,8 @@ namespace EasyDeviceDiscoveryProtocolClient
         [Header("Properties")]
         public string deivceName = "mydevice_server"; //自分のデバイス名
         public int servicePort = 22222; //自分が使ってほしいと思っているポート
+        public string ignoreDeivceName = ""; //無視するデバイス名
+        public bool desktopMode = false; //デスクトップモード(false: 非アクティブ時にポートを閉じる, true: 閉じない)
 
         [Header("Request Info(Read only)")]
         public string requestIpAddress = ""; //要求来たアドレス
@@ -115,15 +117,19 @@ namespace EasyDeviceDiscoveryProtocolClient
         //アプリケーションが中断・復帰したとき(モバイルでバックグラウンドになった・エディタで別のフォーカスを当てられたとき)
         private void OnApplicationPause(bool pause)
         {
-            if (pause)
+            //モバイルデバイス向けなので、デスクトップモードでは行わない
+            if(!desktopMode)
             {
-                //アプリが閉じられたら止める
-                Close();
-            }
-            else
-            {
-                //アプリが開かれたので開く
-                TryOpen();
+                if (pause)
+                {
+                    //アプリが閉じられたら止める
+                    Close();
+                }
+                else
+                {
+                    //アプリが開かれたので開く
+                    TryOpen();
+                }
             }
         }
 
@@ -138,25 +144,30 @@ namespace EasyDeviceDiscoveryProtocolClient
                     var r = udpClient.Receive(ref point);
                     var req = JsonUtility.FromJson<RequestJson>(utf8.GetString(r));
 
-                    //要求内容を表示
-                    requestIpAddress = point.Address.ToString();
-                    requestPort = point.Port;
-                    requestProtocolVersion = req.version;
+                    //無視デバイス名と一致しない場合だけ処理する
+                    if(req.deviceName != ignoreDeivceName)
+                    {
+                        //要求内容を表示
+                        requestIpAddress = point.Address.ToString();
+                        requestPort = point.Port;
+                        requestProtocolVersion = req.version;
 
-                    requestDeviceName = req.deviceName;
-                    requestServicePort = req.servicePort;
+                        requestDeviceName = req.deviceName;
+                        requestServicePort = req.servicePort;
 
-                    //応答を送信
-                    string data = JsonUtility.ToJson(new RequestJson {
-                        servicePort = servicePort,
-                        deviceName = deivceName,
-                        version = RequestJson.protocolVersion,
-                    });
-                    byte[] dat = utf8.GetBytes(data);
-                    udpClient.Send(dat, dat.Length, point);
+                        //応答を送信
+                        string data = JsonUtility.ToJson(new RequestJson
+                        {
+                            servicePort = servicePort,
+                            deviceName = deivceName,
+                            version = RequestJson.protocolVersion,
+                        });
+                        byte[] dat = utf8.GetBytes(data);
+                        udpClient.Send(dat, dat.Length, point);
 
-                    //コールバック送付
-                    OnRequested?.Invoke();
+                        //コールバック送付
+                        OnRequested?.Invoke();
+                    }
                 }
             }
 
